@@ -56,7 +56,7 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
       console.error('POSTED FAILED:', error);
     });
     
-  }@
+  }
 
 export const handler = async (event, context) => {
 
