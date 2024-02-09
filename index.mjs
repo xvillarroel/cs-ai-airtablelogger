@@ -12,6 +12,7 @@ const globals = {
 
 const getCurrentDate = (yearonly) => {
     let today = new Date();
+    console.log(today)
 
     let dd = String(today.getUTCDate()).padStart(2, '0');
     let mm = String(today.getUTCMonth() + 1).padStart(2, '0'); // Enero es 0
