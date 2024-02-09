@@ -1,5 +1,8 @@
 //https://qigzuvctd5pfb4gcqugtjnbsc40odvoa.lambda-url.us-east-1.on.aws/
 
+import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+const ddbClient = new DynamoDBClient({ region: "us-east-1" }); // Asegúrate de usar tu región correcta
+
 const globals = {
     DEFAULT_BASE_ID: "apppHKPOOlTMWd8C4",
     DEFAULT_TABLE_ID: "tblSMmFtgOdQD5W9w",
@@ -58,6 +61,25 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
     
   }
 
+const writeToDynamoDB = async (dataToWrite) => {
+    console.log(JSON.stringify(dataToWrite, null, 2))
+    const params = {
+        TableName: "voiceflow-twilio-collections-logs",
+        Item: {
+            "PrimaryKey": { S: "Timeframe" }, // Cambia "PrimaryKey" y su valor según tu diseño de tabla
+            "Timeframe": { S: dataToWrite.Timeframe },
+            "Message": { S: dataToWrite.Message }
+        }
+    };
+
+    try {
+        const data = await ddbClient.send(new PutItemCommand(params));
+        console.log("Success - item added or updated", data);
+    } catch (err) {
+        console.error("Error", err);
+    }
+};
+
 export const handler = async (event, context) => {
 
     console.log('*********** LOADING V0.1 ***********')
@@ -100,7 +122,8 @@ export const handler = async (event, context) => {
         "Message": message
     };
 
-    await writeToAirtable (globals.AIRTABLE_TOKEN, baseID, tableID, information)
+    //await writeToAirtable (globals.AIRTABLE_TOKEN, baseID, tableID, information);
+    await writeToDynamoDB (information);
 
     let res = {
         statusCode: 200,
@@ -115,53 +138,53 @@ export const handler = async (event, context) => {
 
 };
 
-// (async () => {
-//     ////console.log(JSON.stringify(
-//         await handler({
-//                         version: '2.0',
-//                         routeKey: '$default',
-//                         rawPath: '/',
-//                         rawQueryString: '',
-//                         headers: {
-//                         'content-length': '107',
-//                         'x-amzn-tls-version': 'TLSv1.2',
-//                         'x-forwarded-proto': 'https',
-//                         'postman-token': 'cd2f5956-44b3-4298-88e9-d10dfba4bc74',
-//                         'x-forwarded-port': '443',
-//                         'x-forwarded-for': '181.43.127.230',
-//                         accept: '*/*',
-//                         'x-amzn-tls-cipher-suite': 'ECDHE-RSA-AES128-GCM-SHA256',
-//                         'x-amzn-trace-id': 'Root=1-65a09bf8-79d301b26d42233e44bb8237',
-//                         host: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
-//                         'content-type': 'application/json',
-//                         'accept-encoding': 'gzip, deflate, br',
-//                         'user-agent': 'PostmanRuntime/7.36.0'
-//                         },
-//                         requestContext: {
-//                         accountId: 'anonymous',
-//                         apiId: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
-//                         domainName: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
-//                         domainPrefix: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
-//                         http: {
-//                             method: 'POST',
-//                             path: '/',
-//                             protocol: 'HTTP/1.1',
-//                             sourceIp: '181.43.127.230',
-//                             userAgent: 'PostmanRuntime/7.36.0'
-//                         },
-//                         requestId: '9c8c29ec-37aa-4d1e-bc32-fcd3abf82fdf',
-//                         routeKey: '$default',
-//                         stage: '$default',
-//                         time: '12/Jan/2024:01:55:04 +0000',
-//                         timeEpoch: 1705024504027
-//                         },
-//                         body: '{\r\n' +
+(async () => {
+    ////console.log(JSON.stringify(
+        await handler({
+                        version: '2.0',
+                        routeKey: '$default',
+                        rawPath: '/',
+                        rawQueryString: '',
+                        headers: {
+                        'content-length': '107',
+                        'x-amzn-tls-version': 'TLSv1.2',
+                        'x-forwarded-proto': 'https',
+                        'postman-token': 'cd2f5956-44b3-4298-88e9-d10dfba4bc74',
+                        'x-forwarded-port': '443',
+                        'x-forwarded-for': '181.43.127.230',
+                        accept: '*/*',
+                        'x-amzn-tls-cipher-suite': 'ECDHE-RSA-AES128-GCM-SHA256',
+                        'x-amzn-trace-id': 'Root=1-65a09bf8-79d301b26d42233e44bb8237',
+                        host: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
+                        'content-type': 'application/json',
+                        'accept-encoding': 'gzip, deflate, br',
+                        'user-agent': 'PostmanRuntime/7.36.0'
+                        },
+                        requestContext: {
+                        accountId: 'anonymous',
+                        apiId: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
+                        domainName: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
+                        domainPrefix: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
+                        http: {
+                            method: 'POST',
+                            path: '/',
+                            protocol: 'HTTP/1.1',
+                            sourceIp: '181.43.127.230',
+                            userAgent: 'PostmanRuntime/7.36.0'
+                        },
+                        requestId: '9c8c29ec-37aa-4d1e-bc32-fcd3abf82fdf',
+                        routeKey: '$default',
+                        stage: '$default',
+                        time: '12/Jan/2024:01:55:04 +0000',
+                        timeEpoch: 1705024504027
+                        },
+                        body: '{\r\n' +
 
-//                         '    "message": "This is another test"\r\n' +
-//                         '}',
-//                         isBase64Encoded: false
-//                         })
-// })() 
+                        '    "message": "This is another test"\r\n' +
+                        '}',
+                        isBase64Encoded: false
+                        })
+})() 
 
 
 
