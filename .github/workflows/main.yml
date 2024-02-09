@@ -1,0 +1,27 @@
+name: Deploy to Lambda
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy_source:
+    name: build and deploy lambda
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: zip
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -r ./bundle.zip ./
+          
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-east-1
+          function_name: cs-ai-airtablelogger
+          zip_file: bundle.zip
