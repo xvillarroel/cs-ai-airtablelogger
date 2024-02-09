@@ -55,7 +55,8 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
     .catch(error => {
       console.error('POSTED FAILED:', error);
     });
-  }
+    
+  }@
 
 export const handler = async (event, context) => {
 
@@ -114,53 +115,53 @@ export const handler = async (event, context) => {
 
 };
 
-(async () => {
-    ////console.log(JSON.stringify(
-        await handler({
-                        version: '2.0',
-                        routeKey: '$default',
-                        rawPath: '/',
-                        rawQueryString: '',
-                        headers: {
-                        'content-length': '107',
-                        'x-amzn-tls-version': 'TLSv1.2',
-                        'x-forwarded-proto': 'https',
-                        'postman-token': 'cd2f5956-44b3-4298-88e9-d10dfba4bc74',
-                        'x-forwarded-port': '443',
-                        'x-forwarded-for': '181.43.127.230',
-                        accept: '*/*',
-                        'x-amzn-tls-cipher-suite': 'ECDHE-RSA-AES128-GCM-SHA256',
-                        'x-amzn-trace-id': 'Root=1-65a09bf8-79d301b26d42233e44bb8237',
-                        host: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
-                        'content-type': 'application/json',
-                        'accept-encoding': 'gzip, deflate, br',
-                        'user-agent': 'PostmanRuntime/7.36.0'
-                        },
-                        requestContext: {
-                        accountId: 'anonymous',
-                        apiId: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
-                        domainName: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
-                        domainPrefix: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
-                        http: {
-                            method: 'POST',
-                            path: '/',
-                            protocol: 'HTTP/1.1',
-                            sourceIp: '181.43.127.230',
-                            userAgent: 'PostmanRuntime/7.36.0'
-                        },
-                        requestId: '9c8c29ec-37aa-4d1e-bc32-fcd3abf82fdf',
-                        routeKey: '$default',
-                        stage: '$default',
-                        time: '12/Jan/2024:01:55:04 +0000',
-                        timeEpoch: 1705024504027
-                        },
-                        body: '{\r\n' +
+// (async () => {
+//     ////console.log(JSON.stringify(
+//         await handler({
+//                         version: '2.0',
+//                         routeKey: '$default',
+//                         rawPath: '/',
+//                         rawQueryString: '',
+//                         headers: {
+//                         'content-length': '107',
+//                         'x-amzn-tls-version': 'TLSv1.2',
+//                         'x-forwarded-proto': 'https',
+//                         'postman-token': 'cd2f5956-44b3-4298-88e9-d10dfba4bc74',
+//                         'x-forwarded-port': '443',
+//                         'x-forwarded-for': '181.43.127.230',
+//                         accept: '*/*',
+//                         'x-amzn-tls-cipher-suite': 'ECDHE-RSA-AES128-GCM-SHA256',
+//                         'x-amzn-trace-id': 'Root=1-65a09bf8-79d301b26d42233e44bb8237',
+//                         host: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
+//                         'content-type': 'application/json',
+//                         'accept-encoding': 'gzip, deflate, br',
+//                         'user-agent': 'PostmanRuntime/7.36.0'
+//                         },
+//                         requestContext: {
+//                         accountId: 'anonymous',
+//                         apiId: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
+//                         domainName: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi.lambda-url.us-east-1.on.aws',
+//                         domainPrefix: 'ytzivrzj76ejwc2vdbnzwladdm0nvubi',
+//                         http: {
+//                             method: 'POST',
+//                             path: '/',
+//                             protocol: 'HTTP/1.1',
+//                             sourceIp: '181.43.127.230',
+//                             userAgent: 'PostmanRuntime/7.36.0'
+//                         },
+//                         requestId: '9c8c29ec-37aa-4d1e-bc32-fcd3abf82fdf',
+//                         routeKey: '$default',
+//                         stage: '$default',
+//                         time: '12/Jan/2024:01:55:04 +0000',
+//                         timeEpoch: 1705024504027
+//                         },
+//                         body: '{\r\n' +
 
-                        '    "message": "This is another test"\r\n' +
-                        '}',
-                        isBase64Encoded: false
-                        })
-})() 
+//                         '    "message": "This is another test"\r\n' +
+//                         '}',
+//                         isBase64Encoded: false
+//                         })
+// })() 
 
 
 
