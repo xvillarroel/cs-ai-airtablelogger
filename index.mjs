@@ -66,7 +66,7 @@ const writeToDynamoDB = async (dataToWrite) => {
     const params = {
         TableName: "voiceflow-twilio-collections-logs",
         Item: {
-            "PrimaryKey": { S: "Timeframe" }, // Cambia "PrimaryKey" y su valor según tu diseño de tabla
+            //"PrimaryKey": { S: "Timeframe" }, // Cambia "PrimaryKey" y su valor según tu diseño de tabla
             "Timeframe": { S: dataToWrite.Timeframe },
             "Message": { S: dataToWrite.Message }
         }
