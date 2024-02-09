@@ -12,7 +12,7 @@ const globals = {
 
 const getCurrentDate = (yearonly) => {
     let today = new Date();
-    console.log(today)
+    console.log(today);
 
     let dd = String(today.getUTCDate()).padStart(2, '0');
     let mm = String(today.getUTCMonth() + 1).padStart(2, '0'); // Enero es 0
@@ -20,8 +20,9 @@ const getCurrentDate = (yearonly) => {
     let hours = String(today.getUTCHours()).padStart(2, '0');
     let minutes = String(today.getUTCMinutes()).padStart(2, '0');
     let seconds = String(today.getUTCSeconds()).padStart(2, '0');
+    let milliseconds = String(today.getUTCMilliseconds()).padStart(3, '0');
 
-    return (yearonly) ? `${mm}/${dd}/${yyyy}` : `${mm}/${dd}/${yyyy} ${hours}:${minutes}:${seconds}`;
+    return (yearonly) ? `${mm}/${dd}/${yyyy}` : `${mm}/${dd}/${yyyy} ${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
 
 const assembleResponse = async (status, message) => {
