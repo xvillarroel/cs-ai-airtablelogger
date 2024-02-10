@@ -111,11 +111,11 @@ export const handler = async (event, context) => {
     // UNIVERSAL VALIDATOR OF METHOD
 
 
-    if (!eventBody.message) { return await assembleResponse(400,'message is missing.'); }
+    if (!eventBody.Message) { return await assembleResponse(400,'Message is missing.'); }
 
     let baseID = (!eventBody.base_id) ? globals.DEFAULT_BASE_ID : eventBody.base_id;
     let tableID = (!eventBody.table_id) ? globals.DEFAULT_TABLE_ID : eventBody.table_id; 
-    let message = eventBody.message;
+    let message = eventBody.Message;
     let timeframe = getCurrentDate(false) // get the full timeframe, not only the DD/MM/YYYY
 
     let information = 
