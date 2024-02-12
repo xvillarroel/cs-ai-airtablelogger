@@ -78,7 +78,7 @@ const writeToDynamoDB = async (dataToWrite) => {
         const data = await ddbClient.send(new PutItemCommand(params));
         console.log("Success - item added or updated", data);
     } catch (err) {
-        console.error("Error", err);
+        console.error("Error in writeToDynamoDB: ", err);
     }
 };
 
@@ -132,7 +132,7 @@ export const handler = async (event, context) => {
         headers: {
             'Content-Type': 'application/json; charset=utf-8'
         },
-        body: `Message written in airtable: https://airtable.com/${baseID}/${tableID}/viwsG0iWErnQHjawN?blocks=hide`
+        body: `Posted successfully in AWS.`
     }
     
     //console.log(JSON.stringify(res, null, 2))
