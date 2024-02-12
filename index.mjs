@@ -84,9 +84,8 @@ const writeToDynamoDB = async (dataToWrite) => {
 
 export const handler = async (event, context) => {
 
-    console.log('*********** LOADING V0.1 ***********')
+    console.log('*********** LOADING V1 ***********')
     console.log(JSON.stringify(event,null,2));
-    console.log(`Type: ${typeof event}`);
     console.log('*************************************')
 
     let eventBody;
@@ -136,6 +135,7 @@ export const handler = async (event, context) => {
     }
     
     //console.log(JSON.stringify(res, null, 2))
+    console.log('*********** ENDING SCRIPT ***********')
     return res;
 
 };
