@@ -64,7 +64,7 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
   }
 
 const writeToDynamoDB = async (dataToWrite) => {
-    console.log(JSON.stringify(dataToWrite, null, 2))
+    console.log(`A. writeToDynamoDB first line`)
     const params = {
         TableName: "voiceflow-twilio-collections-logs",
         Item: {
@@ -73,6 +73,8 @@ const writeToDynamoDB = async (dataToWrite) => {
             "Message": { S: dataToWrite.Message }
         }
     };
+
+    console.log(`B. Starting try`)
 
     try {
         const data = await ddbClient.send(new PutItemCommand(params));
@@ -108,6 +110,7 @@ export const handler = async (event, context) => {
         return res;
     }
     // UNIVERSAL VALIDATOR OF METHOD
+    console.log('1. Universal validator of method executed.')
 
 
     if (!eventBody.Message) { return await assembleResponse(400,'Message is missing.'); }
@@ -117,6 +120,8 @@ export const handler = async (event, context) => {
     let message = eventBody.Message;
     let timeframe = getCurrentDate(false) // get the full timeframe, not only the DD/MM/YYYY
 
+    console.log('2. Variables assigned.')
+
     let information = 
     {
         "Timeframe": timeframe,
@@ -125,6 +130,8 @@ export const handler = async (event, context) => {
 
     //await writeToAirtable (globals.AIRTABLE_TOKEN, baseID, tableID, information);
     await writeToDynamoDB (information);
+
+    console.log('3. Dynamo functino called.')
 
     let res = {
         statusCode: 200,
