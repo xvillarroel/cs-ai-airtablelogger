@@ -112,12 +112,20 @@ export const handler = async (event, context) => {
     // UNIVERSAL VALIDATOR OF METHOD
     console.log('1. Universal validator of method executed.')
 
-
-    if (!eventBody.Message) { return await assembleResponse(400,'Message is missing.'); }
+    let message;
+    if (!eventBody.Message) { 
+        if (!eventBody.message) {
+            return await assembleResponse(400,'Message is missing.');
+        } else {
+             message = eventBody.message;
+        }
+    } else {
+         message = eventBody.Message;
+    }
 
     let baseID = (!eventBody.base_id) ? globals.DEFAULT_BASE_ID : eventBody.base_id;
     let tableID = (!eventBody.table_id) ? globals.DEFAULT_TABLE_ID : eventBody.table_id; 
-    let message = eventBody.Message;
+    
     let timeframe = getCurrentDate(false) // get the full timeframe, not only the DD/MM/YYYY
 
     console.log('2. Variables assigned.')
