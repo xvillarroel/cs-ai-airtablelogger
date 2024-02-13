@@ -36,6 +36,8 @@ const assembleResponse = async (status, message) => {
 };
 
 const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
+    console.log(`C. writeToAirtable first line`)
+
     const url = `https://api.airtable.com/v0/${baseID}/${tableID}`;
     const headers = {
       "Authorization": `Bearer ${token}`,
@@ -46,8 +48,7 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
       "fields": dataToWrite
     };
 
-    console.log(JSON.stringify(payload, null, 2))
-  
+    console.log(`D. Before calling the fetch`)
     fetch(url, {
       method: 'POST',
       headers: headers,
@@ -60,6 +61,8 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
     .catch(error => {
       console.error('POSTED FAILED:', error);
     });
+
+    console.log(`E. After calling the fetch`)
     
   }
 
