@@ -78,7 +78,7 @@ const writeToDynamoDB = async (dataToWrite) => {
 
     try {
         const data = await ddbClient.send(new PutItemCommand(params));
-        console.log("Success - item added or updated", data);
+        console.log(`Success - Message is: "${dataToWrite.Message}",  and Metadata is: ${JSON.stringify(data, null, 2)} `);
     } catch (err) {
         console.error("Error in writeToDynamoDB: ", err);
     }
@@ -117,10 +117,10 @@ export const handler = async (event, context) => {
         if (!eventBody.message) {
             return await assembleResponse(400,'Message is missing.');
         } else {
-             message = eventBody.message;
+            message = eventBody.message;
         }
     } else {
-         message = eventBody.Message;
+        message = eventBody.Message;
     }
 
     let baseID = (!eventBody.base_id) ? globals.DEFAULT_BASE_ID : eventBody.base_id;
@@ -136,8 +136,8 @@ export const handler = async (event, context) => {
         "Message": message
     };
 
-    //await writeToAirtable (globals.AIRTABLE_TOKEN, baseID, tableID, information);
     await writeToDynamoDB (information);
+    await writeToAirtable (globals.AIRTABLE_TOKEN, baseID, tableID, information);
 
     console.log('3. Dynamo functino called.')
 
@@ -146,7 +146,7 @@ export const handler = async (event, context) => {
         headers: {
             'Content-Type': 'application/json; charset=utf-8'
         },
-        body: `Posted successfully in AWS.`
+        body: `Logged successfully`
     }
     
     //console.log(JSON.stringify(res, null, 2))
