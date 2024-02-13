@@ -36,7 +36,7 @@ const assembleResponse = async (status, message) => {
 };
 
 const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
-    console.log(`C. writeToAirtable first line`)
+    console.log(`C. writeToAirtable first line`);
 
     const url = `https://api.airtable.com/v0/${baseID}/${tableID}`;
     const headers = {
@@ -48,23 +48,19 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
       "fields": dataToWrite
     };
 
-    console.log(`D. Before calling the fetch`)
-    fetch(url, {
-      method: 'POST',
-      headers: headers,
-      body: JSON.stringify(payload)
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('POSTED SUCCESSFULLY:', data);
-    })
-    .catch(error => {
-      console.error('POSTED FAILED:', error);
-    });
+    try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        console.log('POSTED SUCCESSFULLY:', data);
+    } catch (error) {
+        console.error('POSTED FAILED:', error);
+    }
 
-    console.log(`E. After calling the fetch`)
-    
-  }
+}
 
 const writeToDynamoDB = async (dataToWrite) => {
     console.log(`A. writeToDynamoDB first line`)
