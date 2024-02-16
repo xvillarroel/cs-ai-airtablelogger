@@ -39,14 +39,8 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
     console.log(`C. writeToAirtable first line`);
 
     const url = `https://api.airtable.com/v0/${baseID}/${tableID}`;
-    const headers = {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
-    };
-    
-    const payload = {
-      "fields": dataToWrite
-    };
+    const headers = { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" };
+    const payload = { "fields": dataToWrite };
 
     try {
         const response = await fetch(url, {
@@ -69,7 +63,8 @@ const writeToDynamoDB = async (dataToWrite) => {
         Item: {
             //"PrimaryKey": { S: "Timeframe" }, // Cambia "PrimaryKey" y su valor según tu diseño de tabla
             "Timeframe": { S: dataToWrite.Timeframe },
-            "Message": { S: dataToWrite.Message }
+            "Message": { S: dataToWrite.Message },
+            "Session": { S: dataToWrite.Session },
         }
     };
 
@@ -124,6 +119,7 @@ export const handler = async (event, context) => {
 
     let baseID = (!eventBody.base_id) ? globals.DEFAULT_BASE_ID : eventBody.base_id;
     let tableID = (!eventBody.table_id) ? globals.DEFAULT_TABLE_ID : eventBody.table_id; 
+    let sessionID = (!eventBody.session) ? "No Session Specified" : eventBody.session; 
     
     let timeframe = getCurrentDate(false) // get the full timeframe, not only the DD/MM/YYYY
 
@@ -132,7 +128,8 @@ export const handler = async (event, context) => {
     let information = 
     {
         "Timeframe": timeframe,
-        "Message": message
+        "Message": message,
+        "Session": sessionID
     };
 
     await writeToDynamoDB (information);
@@ -195,7 +192,7 @@ export const handler = async (event, context) => {
 //                         timeEpoch: 1705024504027
 //                         },
 //                         body: '{\r\n' +
-
+//                         '    "session": "This is another test"\r\n' +         
 //                         '    "message": "This is another test"\r\n' +
 //                         '}',
 //                         isBase64Encoded: false
