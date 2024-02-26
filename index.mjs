@@ -116,7 +116,6 @@ export const handler = async (event, context) => {
         "Timeframe": timeframe,
         "Message": message,
         "Session": sessionID,
-        "DynamoID": 
     };
 
     await writeToDynamoDB (information, tableName);
