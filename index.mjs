@@ -1,7 +1,7 @@
 //https://qigzuvctd5pfb4gcqugtjnbsc40odvoa.lambda-url.us-east-1.on.aws/
 
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
-const ddbClient = new DynamoDBClient({ region: "us-east-1" }); // Asegúrate de usar tu región correcta
+const ddbClient = new DynamoDBClient({ region: "us-east-1" }); 
 
 const globals = {
     DEFAULT_BASE_ID: "apppHKPOOlTMWd8C4",
@@ -58,22 +58,19 @@ const writeToAirtable = async (token, baseID, tableID, dataToWrite) => {
 }
 
 const writeToDynamoDB = async (dataToWrite, tableName) => {
-    console.log(`A. writeToDynamoDB first line`)
+   
     const params = {
         TableName: tableName,
         Item: {
-            //"PrimaryKey": { S: "Timeframe" }, // Cambia "PrimaryKey" y su valor según tu diseño de tabla
             "Timeframe": { S: dataToWrite.Timeframe },
             "Message": { S: dataToWrite.Message },
             "Session": { S: dataToWrite.Session },
         }
     };
 
-    console.log(`B. Starting try`)
-
     try {
         const data = await ddbClient.send(new PutItemCommand(params));
-        console.log(`Success - Message is: "${dataToWrite.Message}",  and Metadata is: ${JSON.stringify(data, null, 2)} `);
+        console.log(`Success - Message is: "${dataToWrite.Message}", and Metadata is: ${JSON.stringify(data, null, 2)} `);
     } catch (err) {
         console.error("Error in writeToDynamoDB: ", err);
     }
@@ -93,7 +90,7 @@ export const handler = async (event, context) => {
         if (event.body) {
             eventBody = JSON.parse(event.body);
         } else { 
-            return await assembleResponse(400,'This reqeust has no payload.'); 
+            return await assembleResponse(400,'This request has no payload.'); 
         }
 
     let message; 
@@ -105,9 +102,11 @@ export const handler = async (event, context) => {
 
     let baseID = (!eventBody.airtable_base_id) ? globals.DEFAULT_BASE_ID : eventBody.base_id; //Only for AIRTABLE logging.
     let tableID = (!eventBody.airtable_table_id) ? globals.DEFAULT_TABLE_ID : eventBody.table_id; //Only for AIRTABLE logging.
+    /////////
     let tableName = (!eventBody.dynamo_table_name) ? globals.DEFAULT_DYNAMO_TABLE_NAME : eventBody.dynamo_table_name; //Only for DYNAMO logging.;
+    /////////
     let sessionID = (!eventBody.session) ? "No Session Specified" : eventBody.session; 
-    let timeframe = getCurrentDate(false) // get the full timeframe, not only the DD/MM/YYYY
+    let timeframe = (!eventBody.timeframe) ? getCurrentDate(false) : eventBody.timeframe; 
 
     console.log('2. Variables assigned.')
 
@@ -121,7 +120,7 @@ export const handler = async (event, context) => {
     await writeToDynamoDB (information, tableName);
     await writeToAirtable (globals.AIRTABLE_TOKEN, baseID, tableID, information);
 
-    console.log('3. Dynamo functino called.')
+    console.log('3. Dynamo function called.')
 
     let res = {
         statusCode: 200,
